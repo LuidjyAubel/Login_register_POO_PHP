@@ -1,0 +1,19 @@
+r@r.r
+
+$2y$10$yr3qxOnez4.UG91CZ7vL..itBtpTEd/IaioSIRfeqrl6VpbclPeZe
+password_verify
+
+
+ $requete = $this->_db->query('SELECT id, EMAIL, `PASSWORD` FROM usern');
+        while ($ligne = $requete->fetch(PDO::FETCH_ASSOC)){
+            if ($MAiL == $ligne['EMAIL']){
+                if ($pass2 == $ligne['PASSWORD']){
+                        print("yes <br>");
+                        print($ligne['PASSWORD']."<br>");
+                        print($pass2);
+                        return;
+                }else{
+                    print("no <br>");
+                    print($ligne['PASSWORD']."<br>");
+                    print($pass2);
+                    return;
