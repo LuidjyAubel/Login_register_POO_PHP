@@ -8,9 +8,16 @@ Class Usermanager{
     public function setDb($db){
         $this->_db = $db;
     }
-    public function getId(){
-
+    public function delete($id){
+        $requete = $this->_db->query('SELECT id, EMAIL FROM usern');
+        while ($ligne = $requete->fetch(PDO::FETCH_ASSOC)){
+            if ($id == $ligne['id']){
+                $stmt = $this->_db->prepare('DELETE FROM usern WHERE id = ?;');
+                $stmt->bindParam(1,$_GET['id']);
+                $stmt->execute();
+            }
     }
+}
     public function addDb($user, $pass){
         //$db = new PDO($host, $Usernam, $PassWD);
         //$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
@@ -20,24 +27,24 @@ Class Usermanager{
         $stmt->execute();
         //$stmt->destruct();
     }
-    public function afficher()
-    {
+    public function afficher(){
         $tabperso = array();
         $requete = $this->_db->query('SELECT id, EMAIL FROM usern');
         while ($ligne = $requete->fetch(PDO::FETCH_ASSOC)){
             print($ligne['id']." <br>");
             print($ligne['EMAIL']."<br>");
-            print("<a href='update.php?id=".$ligne['id']."'>modifier</a><br><hr>");
+            print("<a class='btn btn-primary' href='update.php?id=".$ligne['id']."'>modifier</a><br>");
+            print("<a class='btn btn-primary' href='delete.php?id=".$ligne['id']."'>supprimer</a><br><hr>");
         }
         }
     public function connect($MAiL, $pass2){
         session_start();
         $_SESSION["connecter"] = FALSE;
- $requete = $this->_db->query('SELECT id, EMAIL, `PASSWORD` FROM usern');
- while ($ligne = $requete->fetch(PDO::FETCH_ASSOC)){
-     if ($MAiL == $ligne['EMAIL']){
-         $hash = $ligne['PASSWORD'];
-        if (password_verify($pass2, $hash)) {
+        $requete = $this->_db->query('SELECT id, EMAIL, `PASSWORD` FROM usern');
+        while ($ligne = $requete->fetch(PDO::FETCH_ASSOC)){
+        if ($MAiL == $ligne['EMAIL']){
+           $hash = $ligne['PASSWORD'];
+          if (password_verify($pass2, $hash)) {
             echo 'Le mot de passe est valide !';
             $_SESSION['connecter'] = TRUE;
             header('Location: afficher.php');
