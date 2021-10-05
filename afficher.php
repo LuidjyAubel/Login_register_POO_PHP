@@ -7,9 +7,9 @@ session_start();
           $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
           $afficher = new Usermanager($db);
           $afficher->afficher();
-          session_destroy();
+          //session_destroy();
     }else{
-        error_reporting(0);
+       // error_reporting(0);
         print("vous n'etes pas connecter !");
         session_destroy();
     }

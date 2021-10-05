@@ -26,7 +26,8 @@ Class Usermanager{
         $requete = $this->_db->query('SELECT id, EMAIL FROM usern');
         while ($ligne = $requete->fetch(PDO::FETCH_ASSOC)){
             print($ligne['id']." <br>");
-            print($ligne['EMAIL']."<br><hr>");
+            print($ligne['EMAIL']."<br>");
+            print("<a href='update.php?id=".$ligne['id']."'>modifier</a><br><hr>");
         }
         }
     public function connect($MAiL, $pass2){
@@ -47,6 +48,25 @@ Class Usermanager{
         }
     }
         }
-
-    }
+        function update($id) {
+            $requete = $this->_db->query('SELECT id, EMAIL, `PASSWORD` FROM usern;');
+            while ($ligne = $requete->fetch(PDO::FETCH_ASSOC)){
+                if ($id == $ligne['id']){
+                    print("<form method='POST'>");
+                    print("<label for='modifie'>Id : </label>");
+                    print("<input type='text' name='modifie' value=".$ligne['id']."><br><br>");
+                    print("<label for='modif'>EMAIL : </label>");
+                    print("<input type='text' name='modif' value=".$ligne['EMAIL']."><br><br>");
+                    print("<input type='submit' value='Valider'>");
+                    print("</form>");
+                    $stmt = $this->_db->prepare('UPDATE usern SET EMAIL = ? WHERE id = ?;');
+                    $stmt->bindParam(2, $_POST['modifie']);
+                    $stmt->bindParam(1,$_POST['modif']);
+                    $stmt->execute();
+                }
+                   }
+                   
+                }
+        }
+    
 ?>
